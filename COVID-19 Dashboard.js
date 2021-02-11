@@ -190,6 +190,7 @@ function displaySecondaryRegionContainer(canvas, location1, location2) {
     displaySecondaryRegion(container, location1)
     container.addSpacer()
     displaySecondaryRegion(container, location2)
+    container.addSpacer()
 }
 
 // Secondary Region ////////////////////////////
