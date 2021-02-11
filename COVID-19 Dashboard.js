@@ -18,13 +18,13 @@ formatter.dateFormat = "MMM d"
 
 let country = {
     germany: "DE",
-    canada: "CA",
+    canada: "FR",
     usa: "US"
 }
 
 let iso3Conversion = {
     "DE": "DEU",
-    "CA": "CAN",
+    "FR": "CAN",
     "US": "USA"
 }
 
@@ -34,9 +34,9 @@ let iso3Conversion = {
 let today = new Date()
 
 let flag = {
-    "DE": "🇩🇪",
-    "CA": "🇨🇦",
-    "US": "🇺🇸"
+    "DE": "🍺",
+    "FR": "🥖",
+    "US": "🏈"
 }
 
 // Vaccination Data ////////////////////////////
@@ -44,19 +44,19 @@ let vaccinationResponseMemoryCache
 let vaccinationData = {}
 
 await loadVaccinationData(country.germany)
-await loadVaccinationData(country.canada)
+await loadVaccinationData(country.france)
 await loadVaccinationData(country.usa)
 
 // Global Case Data ////////////////////////////
 let globalCaseData = {}
 
 await loadGlobalCaseData(country.germany)
-await loadGlobalCaseData(country.canada)
+await loadGlobalCaseData(country.france)
 await loadGlobalCaseData(country.usa)
 
 let countryPopulation = {
     "DE": 83_190_556,
-    "CA": 38_310_118,
+    "FR": 67_848_156,
     "US": 330_967_801
 }
 
@@ -65,42 +65,36 @@ let localCaseData = {}
 let localHistoryData = {}
 
 let location = {
-    kissing: "FDB",
-    augsburg: "A",
-    munich: "M",
-    freilassing: "BGL"
+    stuttgart: "S",
+    boeblingen: "BB",
+    ansbach: "AN"
 }
 
 let coordinates = {
-    "FDB": "48.294,10.969",
-    "A": "48.366,10.898",
-    "M": "48.135,11.613",
-    "BGL": "47.835,12.970" 
+    "S": "48.776,9.183",
+    "BB": "48.685,9.013",
+    "AN": "49.205,10.702" 
 }
 
 let localPopulation = {
-    "FDB": 134_655,
-    "A": 296_582,
-    "M": 1_484_226,
-    "BGL": 105_929
+    "S": 635_911,
+    "BB": 392_807,
+    "AN": 184_591
 }
 
 let name = {
-    "FDB": "Kissing",
-    "A": "Augsburg",
-    "M": "München",
-    "BGL": "Freilassing"
+    "S": "Stuttgart",
+    "BB": "Böblingen",
+    "AN": "Ansbach"
 }
 
-await loadLocalCaseData(location.kissing)
-await loadLocalCaseData(location.augsburg)
-await loadLocalCaseData(location.munich)
-await loadLocalCaseData(location.freilassing)
+await loadLocalCaseData(location.stuttgart)
+await loadLocalCaseData(location.boeblingen)
+await loadLocalCaseData(location.ansbach)
 
-await loadLocalHistoryData(location.kissing)
-await loadLocalHistoryData(location.augsburg)
-await loadLocalHistoryData(location.munich)
-await loadLocalHistoryData(location.freilassing)
+await loadLocalHistoryData(location.stuttgart)
+await loadLocalHistoryData(location.boeblingen)
+await loadLocalHistoryData(location.ansbach)
 
 // Uncomment the following line to log all the collected data at this point.
 debugLogRawData()
@@ -157,9 +151,9 @@ function displayContent(canvas) {
 
 // Local Data //////////////////////////////////
 function displayLocalData(canvas) {
-    displayPrimaryRegion(canvas, location.kissing)
+    displayPrimaryRegion(canvas, location.stuttgart)
     canvas.addSpacer(2)
-    displaySecondaryRegionContainer(canvas, location.augsburg, location.munich, location.freilassing)
+    displaySecondaryRegionContainer(canvas, location.boeblingen, location.ansbach)
 }
 
 // Primary Region //////////////////////////////
@@ -191,13 +185,11 @@ function displayPrimaryRegion(canvas, location) {
 }
 
 // Secondary Region Container //////////////////
-function displaySecondaryRegionContainer(canvas, location1, location2, location3) {
+function displaySecondaryRegionContainer(canvas, location1, location2) {
     let container = canvas.addStack()
     displaySecondaryRegion(container, location1)
     container.addSpacer()
     displaySecondaryRegion(container, location2)
-    container.addSpacer()
-    displaySecondaryRegion(container, location3)
 }
 
 // Secondary Region ////////////////////////////
@@ -218,7 +210,7 @@ function displaySecondaryRegion(canvas, location) {
 function displayGlobalData(canvas) {
     displayCountry(canvas, country.germany)
     canvas.addSpacer()
-    displayCountry(canvas, country.canada)
+    displayCountry(canvas, country.france)
     canvas.addSpacer()
     displayCountry(canvas, country.usa)
     canvas.addSpacer(2)
@@ -342,21 +334,21 @@ function getUpdateDictionary() {
 
     let updateDict = {}
 
-    let rkiUpdates = [getLastRKIUpdate(location.kissing), getLastRKIUpdate(location.augsburg), getLastRKIUpdate(location.munich), getLastRKIUpdate(location.freilassing)]
+    let rkiUpdates = [getLastRKIUpdate(location.stuttgart), getLastRKIUpdate(location.boeblingen), getLastRKIUpdate(location.ansbach)]
     let oldestLocalCasesUpdate = rkiUpdates.sort().reverse()[0]
     if (!updateDict[updateFormatter.string(oldestLocalCasesUpdate)]) {
         updateDict[updateFormatter.string(oldestLocalCasesUpdate)] = []
     }
     updateDict[updateFormatter.string(oldestLocalCasesUpdate)].push("RKI")
 
-    let jhuUpdates = [getLastJHUUpdate(country.germany), getLastJHUUpdate(country.canada), getLastJHUUpdate(country.usa)]
+    let jhuUpdates = [getLastJHUUpdate(country.germany), getLastJHUUpdate(country.france), getLastJHUUpdate(country.usa)]
     let oldestGlobalCasesUpdate = jhuUpdates.sort().reverse()[0]
     if (!updateDict[updateFormatter.string(oldestGlobalCasesUpdate)]) {
         updateDict[updateFormatter.string(oldestGlobalCasesUpdate)] = []
     }
     updateDict[updateFormatter.string(oldestGlobalCasesUpdate)].push("JHU")
 
-    let owidUpdates = [getLastOWIDUpdate(country.germany), getLastOWIDUpdate(country.canada), getLastOWIDUpdate(country.usa)]
+    let owidUpdates = [getLastOWIDUpdate(country.germany), getLastOWIDUpdate(country.france), getLastOWIDUpdate(country.usa)]
     let oldestGlobalVaccinationsUpdate = owidUpdates.sort().reverse()[0]
     if (!updateDict[updateFormatter.string(oldestGlobalVaccinationsUpdate)]) {
         updateDict[updateFormatter.string(oldestGlobalVaccinationsUpdate)] = []
