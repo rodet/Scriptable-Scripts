@@ -18,7 +18,7 @@ formatter.dateFormat = "MMM d"
 
 let country = {
     germany: "DE",
-    canada: "FR",
+    france: "FR",
     usa: "US"
 }
 
