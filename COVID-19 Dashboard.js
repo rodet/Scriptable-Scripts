@@ -27,15 +27,15 @@ let showFirstAndSecondVaccinationOnProgressBar = true
 
 // Global Configuration ////////////////////////
 let country = {
-    germany: "DE",
-    france: "FR",
-    usa: "US"
+    germany: "DEU",
+    france: "FRA",
+    usa: "USA"
 }
 
 let flag = {
-    "DE": "🍺",
-    "FR": "🥖",
-    "US": "🏈"
+    "DEU": "🍺",
+    "FRA": "🥖",
+    "USA": "🏈"
 }
 
 // Local Configuration /////////////////////////
@@ -92,21 +92,9 @@ await loadGlobalCaseData(country.germany)
 await loadGlobalCaseData(country.france)
 await loadGlobalCaseData(country.usa)
 
-// let countryPopulation = {
-//     "DE": 83_190_556,
-//     "FR": 67_848_156,
-//     "US": 330_967_801
-// }
-
 // Local Case Data /////////////////////////////
 let localCaseData = {}
 let localHistoryData = {}
-
-// let localPopulation = {
-//     "S": 635_911,
-//     "BB": 392_807,
-//     "AN": 184_591
-// }
 
 await loadLocalCaseData(location.stuttgart)
 await loadLocalCaseData(location.boeblingen)
